@@ -1,8 +1,10 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
+	"log"
 
+	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -21,19 +23,19 @@ type User struct {
 
 func main() {
 	// Create a new Gin router
+	port := middlewares.DotEnvVariable("PORT")
+	fmt.Println("Port number is: " + port)
+	color.Cyan("🌏 Server running on localhost:" + port)
+
 	router := gin.Default()
 
-	// Define a route for the homepage
-	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Welcome to the homepage!")
-	})
+	router := gin.Default()
 
-	// Define a route for a user profile page
-	router.GET("/users/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		c.String(http.StatusOK, "This is the profile page for user %s", id)
-	})
+	// router.Use(customLogger())
+	routes.Routes(router)
 
-	// Run the router on port 8080
-	router.Run(":8080")
+	err := router.Run(":" + port)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
