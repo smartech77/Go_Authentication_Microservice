@@ -30,3 +30,14 @@ func SuccessMessageResponse(msg string, writer http.ResponseWriter) {
 	writer.WriteHeader(http.StatusOK)
 	json.NewEncoder(writer).Encode(temp)
 }
+
+func ErrorResponse(error string, writer http.ResponseWriter) {
+	type errdata struct {
+		Message string `json:"message"`
+	}
+	temp := &errdata{Message: error}
+
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusBadRequest)
+	json.NewEncoder(writer).Encode(temp)
+}
