@@ -12,7 +12,7 @@ import (
 func DotEnvVariable(key string) string {
 
 	err := godotenv.Load()
-
+	// we should add color package to use for logger here.
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
