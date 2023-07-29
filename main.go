@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func DotEnvVariable(key string) string {
@@ -19,6 +20,18 @@ func DotEnvVariable(key string) string {
 	}
 	fmt.Println("Getting value: " + key + ": " + os.Getenv(key))
 	return os.Getenv(key)
+}
+
+type User struct {
+	ID        primitive.ObjectID `json:"_id" bson:"_id"`
+	Username  string             `json:"username" bson:"username" `
+	Password  string             `json:"password" bson:"password"`
+	Email     string             `json:"email" bson:"email"`
+	Language  string             `json:"language" bson:"language"`
+	Phone     string             `json:"phone" bson:"phone"`
+	Firstname string             `json:"firstname" bson:"firstname" validate:"required,alpha"`
+	Lastname  string             `json:"lastname" bson:"lastname" validate:"required,alpha"`
+	Photo     string             `json:"photo" bson:"photo"`
 }
 
 func main() {
