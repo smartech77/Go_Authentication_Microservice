@@ -18,3 +18,15 @@ func AuthorizationResponse(msg string, writer http.ResponseWriter) {
 	writer.WriteHeader(http.StatusUnauthorized)
 	json.NewEncoder(writer).Encode(temp)
 }
+
+func SuccessMessageResponse(msg string, writer http.ResponseWriter) {
+	type errdata struct {
+		Message string `json:"message"`
+		Status  string `json:"status"`
+	}
+	temp := &errdata{Message: "success", Status: msg}
+
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
+	json.NewEncoder(writer).Encode(temp)
+}
