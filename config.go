@@ -15,11 +15,12 @@ func DotEnvVariable(key string) string {
 	// we should add color package to use for logger here.
 	if err != nil {
 		log.Fatalf("Error loading .env file")
+		if os.Getenv(key) == "" && key == "PORT" {
+			return "8080"
+		}
 	}
 	fmt.Println("Getting value: " + key + ": " + os.Getenv(key))
 
-	if os.Getenv(key) == "" && key == "PORT" {
-		return 8080
-	}
+	
 	return os.Getenv(key)
 }
