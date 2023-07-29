@@ -15,8 +15,11 @@ var client *mongo.Client
 
 func Dbconnect() *mongo.Client {
 
-	clientOptions := options.Client().ApplyURI(DotEnvVariable("MONGO_URL"))
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	opts := options.Client().ApplyURI(middlewares.DotEnvVariable("MONGO_ATLAS_URL")).SetServerAPIOptions(serverAPI).SetTLSConfig(&tls.Config{InsecureSkipVerify: true})
+	client, err := mongo.Connect(context.TODO(), opts)
+	// clientOptions := options.Client().ApplyURI(DotEnvVariable("MONGO_URL"))
+	// client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
 		log.Fatal("⛒ Connection Failed to Database")
