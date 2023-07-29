@@ -57,6 +57,14 @@ func SuccessOneRespond(fields interface{}, modelType string, writer http.Respons
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 
+	switch modelType {
+	case "User":
+		temp.Data = fields.(models.User)
+	case "Role":
+		temp.Data = fields.(models.Role)
+	default:
+		color.Red("Invalid Model Type in SuccessOneRespond() for Type ( %v )...", modelType)
+	}
+
 	json.NewEncoder(writer).Encode(temp)
 }
-
