@@ -10,7 +10,8 @@ import (
 )
 
 
-func SuccessArrRespond(fields interface{}, writer http.ResponseWriter) {
+
+func SuccessArrRespond(fields interface{}, modelType string, writer http.ResponseWriter) {
 	_, err := json.Marshal(fields)
 	type data struct {
 		Data    interface{} `json:"data"`
@@ -25,8 +26,18 @@ func SuccessArrRespond(fields interface{}, writer http.ResponseWriter) {
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 
+	switch modelType {
+	case "User":
+		temp.Data = fields.([]*models.User)
+	case "Role":
+		temp.Data = fields.([]*models.Role)
+	default:
+		color.Red("Invalid Model Type in SuccessArrRespond() for Type ( %v )...", modelType)
+	}
+
 	json.NewEncoder(writer).Encode(temp)
 }
+
 func AuthorizationResponse(msg string, writer http.ResponseWriter) {
 	type errdata struct {
 		Message string `json:"message"`
