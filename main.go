@@ -1,10 +1,25 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
+
+func DotEnvVariable(key string) string {
+
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+	fmt.Println("Getting value: " + key + ": " + os.Getenv(key))
+	return os.Getenv(key)
+}
 
 func main() {
 	// Create a new Gin router
