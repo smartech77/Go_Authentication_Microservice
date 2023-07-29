@@ -17,5 +17,9 @@ func DotEnvVariable(key string) string {
 		log.Fatalf("Error loading .env file")
 	}
 	fmt.Println("Getting value: " + key + ": " + os.Getenv(key))
+
+	if os.Getenv(key) == "" && key == "PORT" {
+		return 8080
+	}
 	return os.Getenv(key)
 }
