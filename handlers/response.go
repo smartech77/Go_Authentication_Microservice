@@ -8,6 +8,25 @@ import (
 	"github.com/fatih/color"
 	"tracio.com/userservice/models"
 )
+
+
+func SuccessArrRespond(fields interface{}, writer http.ResponseWriter) {
+	_, err := json.Marshal(fields)
+	type data struct {
+		Data    interface{} `json:"data"`
+		Message string      `json:"message"`
+	}
+	temp := &data{Data: fields, Message: "success"}
+	if err != nil {
+		color.Red("Marshal Data Failed in SuccessArrRespond() for Type ( %v )...", modelType)
+		ServerErrResponse(err.Error(), writer)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
+
+	json.NewEncoder(writer).Encode(temp)
+}
 func AuthorizationResponse(msg string, writer http.ResponseWriter) {
 	type errdata struct {
 		Message string `json:"message"`
