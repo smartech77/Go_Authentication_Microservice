@@ -68,5 +68,3 @@ func SuccessOneRespond(fields interface{}, modelType string, writer http.Respons
 
 	json.NewEncoder(writer).Encode(temp)
 }
-
-
