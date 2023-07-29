@@ -41,3 +41,22 @@ func ErrorResponse(error string, writer http.ResponseWriter) {
 	writer.WriteHeader(http.StatusBadRequest)
 	json.NewEncoder(writer).Encode(temp)
 }
+
+func SuccessOneRespond(fields interface{}, modelType string, writer http.ResponseWriter) {
+	_, err := json.Marshal(fields)
+	type data struct {
+		Data    interface{} `json:"data"`
+		Message string      `json:"message"`
+	}
+	temp := &data{Data: fields, Message: "success"}
+	if err != nil {
+		color.Red("Marshal Data Failed in SuccessOneRespond() for Type(%v)...", modelType)
+		ServerErrResponse(err.Error(), writer)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	writer.WriteHeader(http.StatusOK)
+
+	json.NewEncoder(writer).Encode(temp)
+}
+
